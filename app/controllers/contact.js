@@ -4,19 +4,21 @@ export default Ember.Controller.extend({
   emailAddress: '',
   message: '',
 
-  isValid: Ember.computed.match('emailAddress', /^.+@.+\..+$/),
-  validMessage: Ember.computed.gte('message.length', 5),
+  //original properties
+  isValid: Ember.computed.match('emailAddress', /^.+@.+\..+$/),//starts as false
+  validMessage: Ember.computed.gte('message.length', 5),//starts as false
 
-  notYet: Ember.computed.not('isValid'),
-  notNow: Ember.computed.not('validMessage'),
+  //my reversing boolean properties
+  notYet: Ember.computed.not('isValid'),//starts as true
+  notNow: Ember.computed.not('validMessage'),//starts as true
 
 
-//Why does this work with "or" but not "and"
-  isDisabled: Ember.computed.or('notYet', 'notNow'),
+//proerty disabling button must be true to disabled
+  isDisabled: Ember.computed.or('notYet', 'notNow'),//starts as true
 
   actions: {
     sendMessage() {
-      alert(`Sending your heart felt message: ${this.get('message')} from ${this.get('emailAddress')}`);
+      alert(`Sending your message: ${this.get('message')} from ${this.get('emailAddress')}`);
       this.set('responseMessage', `Thanks for your thoughts! We'll check'em out.`);
       this.set('message', '');
       this.set('emailAddress', '');
