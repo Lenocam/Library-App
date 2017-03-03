@@ -9,12 +9,12 @@ export default Ember.Controller.extend({
   validMessage: Ember.computed.gte('message.length', 5),//starts as false
 
   //my reversing boolean properties
-  notYet: Ember.computed.not('isValid'),//starts as true
-  notNow: Ember.computed.not('validMessage'),//starts as true
+  notValidAddressYet: Ember.computed.not('isValid'),//starts as true
+  notLongEnoughMessage: Ember.computed.not('validMessage'),//starts as true
 
 
 //proerty disabling button must be true to disabled
-  isDisabled: Ember.computed.or('notYet', 'notNow'),//starts as true
+  isDisabled: Ember.computed.or('notValidAddressYet', 'notLongEnoughMessage'),//starts as true
 
   actions: {
     sendMessage() {
