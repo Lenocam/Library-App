@@ -14,6 +14,7 @@ Router.map(function() {
     this.route('invitations');
     this.route('contacts')
     this.route('edit', { path: '/:contact_id/edit'});
+    this.route('seeder');
   });
 
   this.route('libraries', function() {
