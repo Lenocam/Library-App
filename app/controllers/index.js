@@ -10,16 +10,12 @@ export default Ember.Controller.extend({
   isDisabled: Ember.computed.not('isValid'),
 
   actions: {
-    saveInvitation() {
-      const email = this.get('emailAddress');
+    saveInvitation(newInvitation) {
+      newInvitation.save().then(() => this.conroller.set('responseMessage', true));
+    },
 
-      const newInvitation = this.store.createRecord('invitation', {
-        email: email
-      });
-      newInvitation.save().then((response) => {
-        this.set('responseMessage', `Thank you! We've just saved your email address: ${this.get('emailAddress')}. We will be in touch!`);
-        this.set('emailAddress', '');
-      });
+    willTransition() {
+      this.controller.get('model').rollbackAttributes();
     }
   }
 });
