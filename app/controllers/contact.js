@@ -1,27 +1,36 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
+
   emailAddress: '',
   message: '',
+  responseMessage: '',
 
-  //original properties
-  isValid: Ember.computed.match('emailAddress', /^.+@.+\..+$/),//starts as false
-  validMessage: Ember.computed.gte('message.length', 5),//starts as false
+  isValid: Ember.computed.match('emailAddress', /^.+@.+\..+$/),
+  validMessage: Ember.computed.gte('message.length', 5),
 
-  //my reversing boolean properties
-  notValidAddressYet: Ember.computed.not('isValid'),//starts as true
-  notLongEnoughMessage: Ember.computed.not('validMessage'),//starts as true
+  unformattedAddress: Ember.computed.not('isValid'),
+  shortMessage: Ember.computed.not('validMessage'),
 
 
 //proerty disabling button must be true to disabled
-  isDisabled: Ember.computed.or('notValidAddressYet', 'notLongEnoughMessage'),//starts as true
+  isDisabled: Ember.computed.or('unformattedAddress', 'shortMessage'),
 
   actions: {
-    sendMessage() {
-      alert(`Sending your message: ${this.get('message')} from ${this.get('emailAddress')}`);
-      this.set('responseMessage', `Thanks for your thoughts! We'll check'em out.`);
-      this.set('message', '');
-      this.set('emailAddress', '');
+    saveMessage() {
+      const email = this.get('emailAddress');
+      const message = this.get('message');
+
+      const newMessage = this.store.createRecord('contact', {
+        email: email,
+        message: message
+      });
+
+      newMessage.save().then((response) => {
+        this.set('responseMessage', `Thanks for your thoughts! We'll check'em out.`);
+        this.set('message', '');
+        this.set('emailAddress', '');
+      });
     }
   }
 });
