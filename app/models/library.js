@@ -7,19 +7,20 @@ export default DS.Model.extend({
   address: DS.attr('string'),
   phone: DS.attr('string'),
 
-  books: DS.hasMany('book'),
+  books: DS.hasMany('book', {inverse: 'library', async: true}),
 
   isValid: Ember.computed.notEmpty('name'),
 
   randomize() {
     this.set('name', Faker.company.companyName() + ' Library');
-    this.set('address',  Faker._fullAdress());
+    this.set('address', this._fullAddress());
     this.set('phone', Faker.phone.phoneNumber());
 
     //Return in train
+    return this;
   },
 
-  _fullAdress() {
-    return `${Faker.address.streetAdress()}, ${Faker.address.city()}`;
+  _fullAddress() {
+    return `${Faker.address.streetAddress()}, ${Faker.address.city()}`;
   }
 });

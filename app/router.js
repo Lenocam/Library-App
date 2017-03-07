@@ -13,7 +13,6 @@ Router.map(function() {
   this.route('admin', function() {
     this.route('invitations');
     this.route('contacts');
-    this.route('edit', { path: '/:contact_id/edit'});
     this.route('seeder');
   });
 
