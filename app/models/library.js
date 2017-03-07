@@ -1,5 +1,6 @@
 import DS from 'ember-data';
 import Ember from 'ember';
+import Faker from 'faker';
 
 export default DS.Model.extend({
   name: DS.attr('string'),
@@ -8,5 +9,17 @@ export default DS.Model.extend({
 
   books: DS.hasMany('book'),
 
-  isValid: Ember.computed.notEmpty('name')
+  isValid: Ember.computed.notEmpty('name'),
+
+  randomize() {
+    this.set('name', Faker.company.companyName() + ' Library');
+    this.set('address',  Faker._fullAdress());
+    this.set('phone', Faker.phone.phoneNumber());
+
+    //Return in train
+  },
+
+  _fullAdress() {
+    return `${Faker.address.streetAdress()}, ${Faker.address.city()}`;
+  }
 });
